@@ -1,32 +1,34 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import PropTypes from 'prop-types';
+import React from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
-import { Grid, Section, Block } from 'react-native-responsive-layout';
-import { SizeInfo, withSizeInfo } from 'react-native-responsive-layout/wrappers';
+import { Grid, Section, Block } from "react-native-responsive-layout";
+import {
+  SizeInfo,
+  withSizeInfo,
+} from "react-native-responsive-layout/wrappers";
 
 const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     padding: 15,
-    color: '#333',
-    textAlign: 'center',
+    color: "#333",
+    textAlign: "center",
   },
   smallButton: {
     padding: 5,
-    backgroundColor: '#eee',
+    backgroundColor: "#eee",
     margin: 5,
     marginBottom: 0,
   },
   mediumButton: {
     padding: 15,
-    backgroundColor: '#aaa',
+    backgroundColor: "#aaa",
     margin: 10,
     marginBottom: 0,
   },
   largeButton: {
     padding: 25,
-    backgroundColor: '#666',
+    backgroundColor: "#666",
     margin: 15,
     marginBottom: 0,
   },
@@ -47,7 +49,7 @@ const ResponsiveButtonHOC = withSizeInfo(({ sizeSelector, ...props }) => {
   );
 });
 
-const ResponsiveButtonFaCC = props => (
+const ResponsiveButtonFaCC = (props) => (
   <SizeInfo>
     {({ sizeSelector }) => {
       const style = sizeSelector({
@@ -66,16 +68,15 @@ const ResponsiveButtonFaCC = props => (
   </SizeInfo>
 );
 
-
 export default () => (
   <View>
     <Grid>
       <Section>
         <Block>
-          <ResponsiveButtonHOC title="First button" onPress={() => { }} />
-          <ResponsiveButtonFaCC title="Second button" onPress={() => { }} />
-          <ResponsiveButtonHOC title="Third button" onPress={() => { }} />
-          <ResponsiveButtonFaCC title="Fourth button" onPress={() => { }} />
+          <ResponsiveButtonHOC title="First button" onPress={() => {}} />
+          <ResponsiveButtonFaCC title="Second button" onPress={() => {}} />
+          <ResponsiveButtonHOC title="Third button" onPress={() => {}} />
+          <ResponsiveButtonFaCC title="Fourth button" onPress={() => {}} />
         </Block>
       </Section>
     </Grid>

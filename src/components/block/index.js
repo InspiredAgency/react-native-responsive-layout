@@ -1,19 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
+import React from "react";
+import PropTypes from "prop-types";
+import { StyleSheet, View } from "react-native";
 
-import {
-  SIZE_NAMES,
-  GRID_UNITS,
-  VERTICAL,
-} from '../../shared/constants';
+import { SIZE_NAMES, GRID_UNITS, VERTICAL } from "../../shared/constants";
 
-import { roundForPercentage } from '../../shared/methods';
-import { ContainerSizeProp, DirectionProp } from '../../shared/props';
-import { checkInsideGrid } from '../../utils';
-import { determineSize, isHidden } from './methods';
-import BlockProps from './props';
-
+import { roundForPercentage } from "../../shared/methods";
+import { ContainerSizeProp, DirectionProp } from "../../shared/props";
+import { checkInsideGrid } from "../../utils";
+import { determineSize, isHidden } from "./methods";
+import BlockProps from "./props";
 
 // We need to ensure that stretch sizing wouldn't collapse to zero width when
 // there is enough elements to already fill the line.
@@ -40,34 +35,29 @@ const style = StyleSheet.create({
  * @type {React.StatelessComponent<{size?: string | number, hidden?: boolean, visible?: boolean, style?: any, children: any}>}
  */
 /* eslint-enable */
-const Block = ({
-  children,
-  ...props
-}, {
-  gridSizeClass,
-  gridContentDirection,
-}) => {
+const Block = (
+  { children, ...props },
+  { gridSizeClass, gridContentDirection }
+) => {
   if (isHidden(SIZE_NAMES, gridSizeClass, props)) {
     return null;
   }
 
   // Which attribute we set depends on direction
-  const styleProperty = gridContentDirection === VERTICAL ? 'width' : 'height';
+  const styleProperty = gridContentDirection === VERTICAL ? "width" : "height";
 
   // Determine size
   const size = determineSize(SIZE_NAMES, gridSizeClass, props);
   const constantSize = { [styleProperty]: size };
-  const sizeStyle = (size === 'stretch') ? style.stretchSize : constantSize;
+  const sizeStyle = size === "stretch" ? style.stretchSize : constantSize;
 
   // flexDirection depends on direction
   const directionStyle = {
-    flexDirection: (gridContentDirection === VERTICAL ? 'column' : 'row'),
+    flexDirection: gridContentDirection === VERTICAL ? "column" : "row",
   };
 
   return (
-    <View style={[directionStyle, sizeStyle, props.style]}>
-      {children}
-    </View>
+    <View style={[directionStyle, sizeStyle, props.style]}>{children}</View>
   );
 };
 
