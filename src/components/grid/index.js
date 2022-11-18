@@ -47,6 +47,8 @@ class Grid extends Component {
   constructor(props, context) {
     super(props, context);
 
+    this.dimensionsRef = React.createRef();
+
     let width = 0;
     let height = 0;
 
@@ -116,7 +118,10 @@ class Grid extends Component {
   });
 
   componentDidMount() {
-    Dimensions.addEventListener("change", this.windowResizeHandler);
+    this.dimensionsRef.current = Dimensions.addEventListener(
+      "change",
+      this.windowResizeHandler
+    );
 
     // Subscribe to parent updates if they provide them and parent provides them
     if (this.props.relativeTo === "parent") {
@@ -127,7 +132,9 @@ class Grid extends Component {
   }
 
   componentWillUnmount() {
-    Dimensions.removeEventListener("change", this.windowResizeHandler);
+    //? React Native has depreciated removeEventListener on Dimensions
+    //Dimensions.removeEventListener("change", this.windowResizeHandler);
+    this.dimensionsRef.current.remove();
 
     // On unmount we need to unsubscribe from parent subscriber.
     if (this.props.relativeTo === "parent") {
