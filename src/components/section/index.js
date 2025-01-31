@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, View } from "react-native";
 
 import { DirectionProp } from "../../shared/props";
 import { checkInsideGrid, warn } from "../../utils";
+import { GridContext } from "../grid";
 
 const styles = StyleSheet.create({
   horizontal: {
@@ -27,16 +28,14 @@ const styles = StyleSheet.create({
  *
  * @type {React.StatelessComponent<{stretch?: boolean, style?: any, children: any}>}
  */
-const Section = (
-  { children, style, stretch },
-  { gridContentDirection, gridStretch }
-) => {
+const Section = ({ children, style, stretch }) => {
   if (process.env.NODE_ENV === "development") {
     warn(
       !gridStretch && !!stretch,
       "Using `stretch` on `Section` without using `stretchable` on `Grid` has no stretching effect because grid itself won't be stretched and section will just collapse so it won't be visible.\nPlease make `Grid` stretchable as well."
     );
   }
+  const { gridContentDirection, gridStretch } = useContext(GridContext);
 
   return (
     <View
