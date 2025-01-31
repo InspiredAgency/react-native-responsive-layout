@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, View } from "react-native";
 
@@ -9,6 +9,7 @@ import { ContainerSizeProp, DirectionProp } from "../../shared/props";
 import { checkInsideGrid } from "../../utils";
 import { determineSize, isHidden } from "./methods";
 import BlockProps from "./props";
+import { GridContext } from "../grid";
 
 // We need to ensure that stretch sizing wouldn't collapse to zero width when
 // there is enough elements to already fill the line.
@@ -35,13 +36,11 @@ const style = StyleSheet.create({
  * @type {React.StatelessComponent<{size?: string | number, hidden?: boolean, visible?: boolean, style?: any, children: any}>}
  */
 /* eslint-enable */
-const Block = (
-  { children, ...props },
-  { gridSizeClass, gridContentDirection }
-) => {
+const Block = ({ children, ...props }) => {
   if (isHidden(SIZE_NAMES, gridSizeClass, props)) {
     return null;
   }
+  const { gridContentDirection, gridSizeClass } = useContext(GridContext);
 
   // Which attribute we set depends on direction
   const styleProperty = gridContentDirection === VERTICAL ? "width" : "height";
