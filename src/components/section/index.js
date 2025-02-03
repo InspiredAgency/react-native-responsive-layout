@@ -3,17 +3,17 @@ import PropTypes from "prop-types";
 import { StyleSheet, View } from "react-native";
 
 import { DirectionProp } from "../../shared/props";
-import { checkInsideGrid, warn } from "../../utils";
+import { warn } from "../../utils";
 import { GridContext } from "../grid";
 
 const styles = StyleSheet.create({
   horizontal: {
-    alignItems: "flex-start", // Required to support RN42+ due a bug with wrap
+    alignItems: "flex-start", // Required to support RN42+ due to a bug with wrap
     flexWrap: "wrap",
     flexDirection: "column",
   },
   vertical: {
-    alignItems: "flex-start", // Required to support RN42+ due a bug with wrap
+    alignItems: "flex-start", // Required to support RN42+ due to a bug with wrap
     flexWrap: "wrap",
     flexDirection: "row",
   },
@@ -24,18 +24,19 @@ const styles = StyleSheet.create({
 });
 
 /**
- * Component used to contain group of Blocks.
+ * Component used to contain a group of Blocks.
  *
- * @type {React.StatelessComponent<{stretch?: boolean, style?: any, children: any}>}
+ * @type {React.FC<{stretch?: boolean, style?: any, children: any}>}
  */
 const Section = ({ children, style, stretch }) => {
+  const { gridContentDirection, gridStretch } = useContext(GridContext);
+
   if (process.env.NODE_ENV === "development") {
     warn(
       !gridStretch && !!stretch,
       "Using `stretch` on `Section` without using `stretchable` on `Grid` has no stretching effect because grid itself won't be stretched and section will just collapse so it won't be visible.\nPlease make `Grid` stretchable as well."
     );
   }
-  const { gridContentDirection, gridStretch } = useContext(GridContext);
 
   return (
     <View
@@ -52,17 +53,13 @@ const Section = ({ children, style, stretch }) => {
   );
 };
 
-Section.contextTypes = {
-  gridContentDirection: checkInsideGrid(DirectionProp),
-  gridStretch: checkInsideGrid(PropTypes.bool),
-};
-
 Section.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
   stretch: PropTypes.bool,
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 Section.defaultProps = {
